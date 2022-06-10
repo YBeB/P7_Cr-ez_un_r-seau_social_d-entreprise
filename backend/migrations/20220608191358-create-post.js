@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      attachment: {
+      imagePost: {
         allowNull: true,
         type: Sequelize.STRING
       },

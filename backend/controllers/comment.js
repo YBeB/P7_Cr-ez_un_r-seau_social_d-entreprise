@@ -3,9 +3,7 @@ const db = require('../models/index');
 
 //Création commentaire
 exports.createComment = (req, res, next) => {    
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
-    const userId = decodedToken.userId;
+    const userId = req.auth.id;
     
     db.Post.findOne({
         where: { id: req.params.postId }
@@ -50,14 +48,14 @@ exports.getAllComments = (req, res, next) => {
     });
 }
 
-
+//Suppresion de notre commentaire
 exports.deleteComment = (req, res, next) => {
     db.Comment.findOne({
         attributes: ['id'],
         where: { id: req.params.commentId }
     })
     .then(commentFound => {
-        if(commentFound) {
+        if(commentFound && (req.auth.admin || req.auth.id==commentFound.userId)) {
             db.Comment.destroy({ 
                 where: { id: req.params.commentId } 
             })

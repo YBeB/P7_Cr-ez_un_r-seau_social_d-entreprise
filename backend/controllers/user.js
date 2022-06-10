@@ -116,7 +116,7 @@ exports.login = (req, res, next) => {
               username: user.username,
               imageProfile: user.imageProfile,
               token: jwt.sign(
-                { userId: user.id },
+                { userId: user.id,isAdmin: user.isAdmin},
                 process.env.RND_TKN,
                 { expiresIn: "24h" }
               ),

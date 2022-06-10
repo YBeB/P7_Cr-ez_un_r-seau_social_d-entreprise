@@ -6,9 +6,7 @@ const fs = require("fs");
 exports.createPost = (req, res, next) => {
   const content = req.body.content;
 
-  const token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, process.env.RND_TKN);
-  const userId = decodedToken.userId;
+  const userId = req.auth.id;
 
   if (content == null || content == "") {
     return res
@@ -87,6 +85,7 @@ exports.modifyPost = (req, res, next) => {
   console.log("bodypost", req.body.post);
   const postObject = req.file
     ? {
+
         content: req.body.content,
         imagePost: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
@@ -101,7 +100,7 @@ exports.modifyPost = (req, res, next) => {
     where: { id: req.params.postId },
   })
     .then((postFound) => {
-      if (postFound) {
+      if (postFound && (req.auth.admin || req.auth.id==postFound.userId)) {
         db.Post.update(postObject, {
           where: { id: req.params.postId },
         })
@@ -130,7 +129,7 @@ exports.deletePost = (req, res, next) => {
     where: { id: req.params.postId },
   })
     .then((post) => {
-      if (post) {
+      if (post && (req.auth.admin || req.auth.id==postFound.userId)) {
         if (post.imagePost != null) {
           const filename = post.imagePost.split("/images/")[1];
 

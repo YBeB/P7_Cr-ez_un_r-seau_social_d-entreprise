@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./config/.env" });
-const db = require("../models/index");
+const db = require("../models/Index");
 
 // Regex de validation
 const emailRegex =

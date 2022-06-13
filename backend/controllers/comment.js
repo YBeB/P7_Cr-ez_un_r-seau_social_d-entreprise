@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const db = require('../models/index');
+const db = require('../models/Index');
 
-//Création commentaire
+
 exports.createComment = (req, res, next) => {    
     const userId = req.auth.id;
     
@@ -17,7 +17,7 @@ exports.createComment = (req, res, next) => {
             })
             comment.save()
                 .then(() => res.status(201).json({ message: 'Votre commentaire a bien été créé !' }))
-                .catch(error => res.status(400).json({ error: 'une erreur s\'est produite !' }));
+                .catch(error => res.status(400).json({ error: 'Une erreur s\'est produite !' }));
         } else {
             return res.status(404).json({ error: 'Message non trouvé'})
         }
@@ -25,7 +25,8 @@ exports.createComment = (req, res, next) => {
     .catch(error => res.status(500).json({ error: 'Une erreur s\'est produite !' }));
 }
 
-//Récuperation de tout les commentaires
+
+
 exports.getAllComments = (req, res, next) => {
     db.Comment.findAll({
         order: [['updatedAt', "ASC"], ['createdAt', "ASC"]],
@@ -48,7 +49,8 @@ exports.getAllComments = (req, res, next) => {
     });
 }
 
-//Suppresion de notre commentaire
+
+
 exports.deleteComment = (req, res, next) => {
     db.Comment.findOne({
         attributes: ['id'],

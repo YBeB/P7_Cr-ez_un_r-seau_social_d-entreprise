@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
-const db = require("../models/index");
+const db = require("../models/Index");
 const fs = require("fs");
 
-//Permet la création de Poste sur le mur
 exports.createPost = (req, res, next) => {
   const content = req.body.content;
 
@@ -41,16 +40,14 @@ exports.createPost = (req, res, next) => {
             res.status(201).json({ message: "Votre message a bien été créé !" })
           )
           .catch((error) =>
-            res
-              .status(400)
-              .json({ error: "une erreur s'est produite !" })
+            res.status(400).json({ error: "Une erreur s'est produite !" })
           );
       } else {
         return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error: "une erreur s'est produite !" })
+      res.status(500).json({ error: "Une erreur s'est produite !" })
     );
 };
 
@@ -75,7 +72,7 @@ exports.getAllPosts = (req, res, next) => {
       }
     })
     .catch((error) => {
-      res.status(500).send({ error: "une erreur s'est produite !" });
+      res.status(500).send({ error: "Une erreur s'est produite !" });
     });
 };
 
@@ -85,7 +82,6 @@ exports.modifyPost = (req, res, next) => {
   console.log("bodypost", req.body.post);
   const postObject = req.file
     ? {
-
         content: req.body.content,
         imagePost: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
@@ -100,7 +96,7 @@ exports.modifyPost = (req, res, next) => {
     where: { id: req.params.postId },
   })
     .then((postFound) => {
-      if (postFound && (req.auth.admin || req.auth.id==postFound.userId)) {
+      if (postFound && (req.auth.admin || req.auth.id == postFound.userId)) {
         db.Post.update(postObject, {
           where: { id: req.params.postId },
         })
@@ -112,14 +108,14 @@ exports.modifyPost = (req, res, next) => {
           .catch((error) =>
             res
               .status(400)
-              .json({ error: "une erreur s'est produite !" })
+              .json({ error: "Ue erreur s'est produite !" })
           );
       } else {
         res.status(404).json({ error: "Message non trouvé" });
       }
     })
     .catch((error) =>
-      res.status(500).json({ error: "une erreur s'est produite !" })
+      res.status(500).json({ error: "Une erreur s'est produite !" })
     );
 };
 
@@ -129,7 +125,7 @@ exports.deletePost = (req, res, next) => {
     where: { id: req.params.postId },
   })
     .then((post) => {
-      if (post && (req.auth.admin || req.auth.id==postFound.userId)) {
+      if (post && (req.auth.admin || req.auth.id == postFound.userId)) {
         if (post.imagePost != null) {
           const filename = post.imagePost.split("/images/")[1];
 
@@ -145,7 +141,7 @@ exports.deletePost = (req, res, next) => {
               .catch(() =>
                 res
                   .status(500)
-                  .json({ error: "une erreur s'est produite !" })
+                  .json({ error: "Une erreur s'est produite !" })
               );
           });
         } else {
@@ -156,9 +152,7 @@ exports.deletePost = (req, res, next) => {
               res.status(200).json({ message: "Votre message a été supprimé" })
             )
             .catch(() =>
-              res
-                .status(500)
-                .json({ error: "une erreur s'est produite !" })
+              res.status(500).json({ error: "Une erreur s'est produite !" })
             );
         }
       } else {
@@ -166,6 +160,6 @@ exports.deletePost = (req, res, next) => {
       }
     })
     .catch((error) =>
-      res.status(500).json({ error: "une erreur s'est produite !" })
+      res.status(500).json({ error: "Une erreur s'est produite !" })
     );
 };

@@ -1,5 +1,5 @@
-const jwt=require("jsonwebtoken");
-const db=require('..models/index');
+const jwt = require("jsonwebtoken");
+const db = require('../models/Index');
 
 
 exports.likePost = (req, res, next) => {
@@ -31,9 +31,9 @@ exports.likePost = (req, res, next) => {
                     where: { id: req.params.postId }
                 })
                 .then(() => res.status(201).json({ message: 'Vous aimez ce message !' }))
-                .catch(error => res.status(500).json({ error: 'Erreur serveur' })) 
+                .catch(error => res.status(500).json({ error: 'Une erreur s\'est produite !' })) 
             })
-            .catch(error => res.status(400).json({ error: 'Erreur serveur' }))
+            .catch(error => res.status(400).json({ error: 'Une erreur s\'est produite !' }))
         } else if(isliked == true) {
             db.Like.destroy({ 
                 where: { 
@@ -48,15 +48,16 @@ exports.likePost = (req, res, next) => {
                     where: { id: req.params.postId }
                 })
                 .then(() => res.status(201).json({ message: 'Vous n\'aimez plus ce message' }))
-                .catch(error => res.status(500).json({ error: 'Erreur serveur' })) 
+                .catch(error => res.status(500).json({ error: 'Une erreur s\'est produite !' })) 
             })
-            .catch(error => res.status(400).json({ error: 'Erreur serveur' }))
+            .catch(error => res.status(400).json({ error: 'Une erreur s\'est produite !' }))
         } else {
             console.log('ko');
         }
     })
-    .catch(error => res.status(400).json({ error: 'Erreur serveur' }))  
+    .catch(error => res.status(400).json({ error: 'Une erreur s\'est produite !' }))  
 }
+
 
 exports.getAllLike = (req, res, next) => {
     db.Like.findAll({
@@ -74,5 +75,5 @@ exports.getAllLike = (req, res, next) => {
             res.status(404).json({ error: 'Aucun like trouvé' });
         }
     })
-    .catch(error => res.status(500).json({ error: 'Erreur serveur' }))
+    .catch(error => res.status(500).json({ error: 'Une erreur s\'est produite !' }))
 }

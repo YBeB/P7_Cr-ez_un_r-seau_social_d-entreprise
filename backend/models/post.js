@@ -11,13 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
-      models.Post,
-        belongsTo(models.User, {
-          foreignKey: {
-            allowNul: false,
-          },
-        });
+      models.Post.belongsTo(models.User, {
+        foreignKey: 'userId'
+      })
+      models.Post.hasMany(models.Like);
+      models.Post.hasMany(models.Comment);
     }
   }
   Post.init({
@@ -27,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     likes: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'post',
+    modelName: 'Post',
   });
   return Post;
 };

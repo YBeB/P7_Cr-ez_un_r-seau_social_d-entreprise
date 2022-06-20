@@ -3,9 +3,7 @@ const db = require('../models/Index');
 
 
 exports.likePost = (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.RND_TKN);
-    const userId = decodedToken.userId;
+    const userId = req.auth.id;
     const isliked = req.body.like
     
 

@@ -1,15 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createGlobalStyle } from 'styled-components'
-import {BrowserRouter as Router,Route,Link, Routes,} from 'react-router-dom'
 
 
 
-function App() {
+
+function Home() {
   return (
-    <div className="App">
+    <div className="Home">
     </div>
   );
 }
 
-export default App;
+export default Home;

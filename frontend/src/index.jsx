@@ -1,8 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import Header from './components/Header/index'
-import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Header from "./components/Header/index";
+import Register from "./pages/Register/index"
+import Home from "./pages/Homepage/index"
+import { createGlobalStyle } from "styled-components";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 const Globalstyle = createGlobalStyle`
 div{
@@ -10,16 +13,17 @@ div{
 }
 body{margin:0;}
 
-`
+`;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Globalstyle/>
-    <Header/>
-   <Routes>
-
-    </Routes>
+    <Globalstyle />
+    <Router>
+      <Header />
+      <Routes>
+        <Route exact path="/register" element ={<Register />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
-

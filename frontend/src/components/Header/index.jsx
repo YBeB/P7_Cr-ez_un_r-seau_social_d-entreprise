@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import colors from "../../utils/style/colors"
 import icongroupo from "../../assets/icon-left-font.png";
-
+import StyledLink from '../../utils/style/Link-style'
 const SyleImg = styled.img`
-  height: 70px;
-`;
+  height: 60px;
+
+`
 
 const GlobalContainer = styled.nav`
-  padding: 15px;
-  dispaly: flex;
+  padding: 10px;
+  display: flex;
+  flex-direction:row;
   justify-content: space-between;
-  align-items: center;
+  background-color:${colors.tertiary};
 `;
+
 
 function Header() {
   return (
@@ -20,10 +24,10 @@ function Header() {
       <SyleImg src={icongroupo} alt="" />
       </Link>
       <div>
-        <Link to="/register">Inscription</Link>
-        <Link to="/login">Connexion</Link>
+        <StyledLink to="/register" $isFullLink>Inscription</StyledLink>
+        <StyledLink to="/login" $isFullLink>Connexion</StyledLink>
       </div>
-    </GlobalContainer>
+      </GlobalContainer>
   );
 }
 export default Header;

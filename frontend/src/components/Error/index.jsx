@@ -27,7 +27,7 @@ function Error(){
 return (
  <div>
 <ErrorBig>Erreur 404</ErrorBig>
-<SubtitleError>La page que vous tenter de voir n'existe pas</SubtitleError>
+<SubtitleError>La page que vous tentez de voir n'existe pas</SubtitleError>
  </div>
 )
 

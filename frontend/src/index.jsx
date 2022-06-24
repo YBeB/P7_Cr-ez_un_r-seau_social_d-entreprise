@@ -8,10 +8,7 @@ import Home from "./pages/Homepage/index"
 import Error from "./components/Error"
 import Footer from "./components/Footer/index"
 import { createGlobalStyle } from "styled-components";
-import { BrowserRouter as Router, Routes, Route,HashRouter } from "react-router-dom";
-import { hasAuthenticated } from "./services/AuthApi";
-import Auth from "./contexts/Auth";
-import AuthenticatedRoute from "./components/Authenticated/AuthenticatedRoute";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Globalstyle = createGlobalStyle`
 div{
@@ -32,7 +29,6 @@ root.render(
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home/>}/>
         <Route path="/register" element ={<Register />} />
         <Route path="/login" element ={<Login/>}/>
         <Route path ="/*" element={<Error/>}/>

@@ -4,7 +4,6 @@ import ReactDOM from "react-dom/client";
 import Header from "./components/Header/index";
 import Register from "./pages/Register/index"
 import Login from "./pages/Login/index"
-import Home from "./pages/Homepage/index"
 import Error from "./components/Error"
 import Footer from "./components/Footer/index"
 import { createGlobalStyle } from "styled-components";

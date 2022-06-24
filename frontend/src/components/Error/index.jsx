@@ -7,6 +7,7 @@ align-items:center;
 justify-content:center;
 height:120px;
 font-size:42px;
+height:750px;
 color:${colors.tertiary}
 `
 const SubtitleError=styled.p`

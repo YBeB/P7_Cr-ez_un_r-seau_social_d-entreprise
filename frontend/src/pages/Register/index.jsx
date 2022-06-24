@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import BackgroundImage from "../../assets/family-using-computer.jpg"
+import { useEffect } from 'react';
 const FormStyle=styled.form`
 display:flex;
 flex-direction:column;
@@ -22,6 +23,13 @@ background-image:${BackgroundImage}
 
 
 function Register() {
+  useEffect(()=>{
+    fetch(`http://localhost:3000/api/signup`)
+    .then((response)=>response.json)
+    .then(({registration })=>console.log(registration))
+    .catch((error)=>console.log(error))
+    
+    })
 return(
 <BodyStyle>
 <div style={{ 

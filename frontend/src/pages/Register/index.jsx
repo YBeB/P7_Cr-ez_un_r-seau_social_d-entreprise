@@ -1,62 +1,199 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import BackgroundImage from "../../assets/family-using-computer.jpg"
-import { useEffect } from 'react';
-const FormStyle=styled.form`
-display:flex;
-flex-direction:column;
-width:20%;
-height:750px;
-font-size:25px;
-justify-content:center;
-padding:0% 0% 0% 10%;
+import BackgroundImage from "../../assets/family-using-computer.jpg";
+import axios from "../../utils/Axios/axios";
+import { useRef, useState, useEffect } from "react";
+
+const EMAIL_REGEX =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const USERNAME_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
+const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+const REGISTER_URL="/api/user/signup"
+const FormStyle = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 750px;
+  font-size: 25px;
+  justify-content: center;
+  padding: 0% 0% 0% 10%;
+  @media screen and (max-width: 425px) {
+    width: 80%;
+  }
+`;
+const InputStyle = styled.input`
+  height: 30px;
+  margin: 10px;
+`;
+
+const ButtonStyle = styled.button`
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+`;
+
+const StyledParagraph=styled.p`
+text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+
+font-size:22px;
 
 `
-const InputStyle=styled.input`
-height:30px;
-margin:10px;
-`
-const BodyStyle=styled.body`
-background-image:${BackgroundImage}
-`
-
-
 
 function Register() {
-  useEffect(()=>{
-    fetch(`http://localhost:3000/api/signup`)
-    .then((response)=>response.json)
-    .then(({registration })=>console.log(registration))
-    .catch((error)=>console.log(error))
-    
-    })
-return(
-<BodyStyle>
-<div style={{ 
-        backgroundImage: `url(${BackgroundImage})`,
-        backgroundSize: 'cover',
-      }}>
-<div className='Register'>
-<FormStyle method="post" >
+  const userRef = useRef();
+  const errRef = useRef();
 
-<label htmlFor="">Identifiant</label>
-<InputStyle type="text" className='FormAw'/>
+  const [username, setUser] = useState("");
+  const [validName, setValidName] = useState(false);
+  const [userFocus, setUserFocus] = useState(false);
 
-<label htmlFor="">Email</label>
-<InputStyle type="email" className='FormAw'/>
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
-<label htmlFor="">Mot de passe</label>
-<InputStyle type="password" className='FormAw'/>
+  const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
 
-</FormStyle>
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
 
-</div>
-</div>
-</BodyStyle>
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
-)
+  useEffect(() => {
+    const result = EMAIL_REGEX.test(email);
+    console.log(result);
+    console.log(email);
+    setValidEmail(result);
+  }, [email]);
 
+  useEffect(() => {
+    const result = USERNAME_REGEX.test(username);
+    console.log(result);
+    console.log(username);
+    setValidEmail(result);
+  }, [username]);
 
+  useEffect(() => {
+    const result = PASSWORD_REGEX.test(password);
+    console.log(result);
+    console.log(password);
+    setValidEmail(result);
+  }, [password]);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, username, password]);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // if button enabled with JS hack
+    const v1 = USERNAME_REGEX.test(username);
+    const v2 =EMAIL_REGEX.test(email)
+    const v3 = PASSWORD_REGEX.test(password);
+    if (!v1 || !v2 || !v3) {
+        setErrMsg("Champs mal renseigné");
+        return;
+    }
+    try {
+        const response = await axios.post(REGISTER_URL,
+            JSON.stringify({ username, email, password }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+        );
+        console.log(response?.data);
+        console.log(response?.accessToken);
+        console.log(JSON.stringify(response))
+        setSuccess(true);
+        //clear state and controlled inputs
+        //need value attrib on inputs for this
+        setUser('');
+        setEmail('')
+        setPassword('');
+    } catch (err) {
+        if (!err?.response) {
+            setErrMsg('Aucune réponse serveur');
+        } else if (err.response?.status === 409) {
+            setErrMsg('Identifiant déjà enregistré');
+        } else {
+            setErrMsg('Inscription échoué')
+        }
+        errRef.current.focus();
+    }
 }
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${BackgroundImage})`,
+        backgroundSize: "cover",
+      }}
+    >
+      <div className="Register">
+        <FormStyle onSubmit={handleSubmit}>
+          <p
+            ref={errRef}
+            className={errMsg ? "errmsg" : "offscreen"}
+            aria-live="assertive"
+          >
+            {errMsg}
+          </p>
 
-export default Register
+          <label htmlFor="username">Identifiant</label>
+          <InputStyle type="text" 
+          id="username"
+          ref={userRef}
+          autoComplete="off"
+          onChange={(e)=> setUser(e.target.value)}
+          value={username}
+          required
+          aria-invalid={validName?"false":"true"}
+          aria-describedby="uidnote"
+          onFocus={()=>setUserFocus(true)}
+          onBlur={()=>setUserFocus(false)}
+          />
+          <StyledParagraph id="uidnote" classname={userFocus && username && !validName ? "instructions":"offscreen"}>
+            4 a 24 caracteres.<br/>
+            l'identifiant dois commencé par une lettre<br/>
+            Les lettres , nombres et tirets sont accéptés
+          </StyledParagraph>
+          <label htmlFor="">Email</label>
+          <InputStyle type="email"
+            id="email"
+            ref={userRef}
+            autoComplete="off"
+            onChange={(e)=> setEmail(e.target.value)}
+            value={email}
+            required
+            aria-invalid={validEmail?"false":"true"}
+            aria-describedby="uemailnote"
+            onFocus={()=>setEmailFocus(true)}
+            onBlur={()=>setEmailFocus(false)}
+          />
+          <StyledParagraph id="uemailnote" classname={emailFocus && email && !validEmail? "instructions":"offscreen"}>
+            Entrer une adresse Mail Valide exemple =jeandupont@live.fr
+          </StyledParagraph>
+          <label htmlFor="">Mot de passe</label>
+          <InputStyle type="password" 
+          id="password" 
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          required
+          aria-invalid={validPassword ? "false" : "true"}
+          aria-describedby="pwdnote"
+          onFocus={() => setPasswordFocus(true)}
+          onBlur={() => setPasswordFocus(false)}
+          />
+
+          <ButtonStyle type='submit'>Inscription</ButtonStyle>
+        </FormStyle>
+      </div>
+    </div>
+  );
+}
+export default Register;

@@ -9,19 +9,21 @@ import Footer from "./components/Footer/index"
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+
+
+
 const Globalstyle = createGlobalStyle`
 div{
   font-family:Lato,sans-serif;
 }
-body{margin:0;
+body{margin:0;}
 
 `
 
 
-
-
-
+function App(){
 const root = ReactDOM.createRoot(document.getElementById("root"));
+return(
 root.render(
   <React.StrictMode>
     <Globalstyle />
@@ -34,8 +36,9 @@ root.render(
       </Routes>
       <Footer/>
     </Router>
-  </React.StrictMode>
+  </React.StrictMode>)
 )
+}
 
 
-
+App()

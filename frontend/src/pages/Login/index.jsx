@@ -9,18 +9,19 @@ height:750px;
 font-size:25px;
 justify-content:center;
 padding:0% 0% 0% 10%;
+@media screen and (max-width:425px){
+  width:80%;
+  
+  }
 
 
 `
 const InputStyle=styled.input`
 height:30px;
 margin:10px;
-`
-const DivBackground=styled.div`
-
-
 
 `
+
 
 
 function Login() {

@@ -9,6 +9,14 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   font-size: 30px;
   text-align: center;
+  @media screen and (max-width:425px){
+    font-size:20px;
+    padding:0px;
+    height:40px;
+    display:flex;
+    margin:0px;
+  }
+
   ${(props) =>
     props.$isFullLink &&
     `color: white;

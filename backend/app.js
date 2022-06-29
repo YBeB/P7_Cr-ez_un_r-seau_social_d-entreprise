@@ -4,6 +4,8 @@ const path=require('path')
 const helmet=require('helmet')
 var cors = require('cors')
 const app = express()
+
+
 app.use(cors()) // Use this after the variable declaration
 app.use(helmet({
     crossOriginResourcePolicy: false,

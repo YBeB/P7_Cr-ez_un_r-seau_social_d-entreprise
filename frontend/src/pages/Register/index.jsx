@@ -7,9 +7,10 @@ import { useRef, useState, useEffect } from "react";
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const USERNAME_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
-const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+const PASSWORD_REGEX =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
-const REGISTER_URL="/api/user/signup"
+const REGISTER_URL = "/api/user/signup";
 const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
@@ -34,12 +35,12 @@ const ButtonStyle = styled.button`
   font-size: 24px;
 `;
 
-const StyledParagraph=styled.p`
-text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+const StyledParagraph = styled.p`
+  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white,
+    0 0 2px white;
 
-font-size:22px;
-
-`
+  font-size: 22px;
+`;
 
 function Register() {
   const userRef = useRef();
@@ -57,7 +58,7 @@ function Register() {
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -65,135 +66,140 @@ function Register() {
   }, []);
 
   useEffect(() => {
-    const result = EMAIL_REGEX.test(email);
-    console.log(result);
-    console.log(email);
-    setValidEmail(result);
+    setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
 
   useEffect(() => {
-    const result = USERNAME_REGEX.test(username);
-    console.log(result);
-    console.log(username);
-    setValidEmail(result);
+    setValidName(USERNAME_REGEX.test(username));
   }, [username]);
 
   useEffect(() => {
-    const result = PASSWORD_REGEX.test(password);
-    console.log(result);
-    console.log(password);
-    setValidEmail(result);
+    setValidPassword(PASSWORD_REGEX.test(password));
   }, [password]);
 
   useEffect(() => {
     setErrMsg("");
   }, [email, username, password]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // if button enabled with JS hack
     const v1 = USERNAME_REGEX.test(username);
-    const v2 =EMAIL_REGEX.test(email)
+    const v2 = EMAIL_REGEX.test(email);
     const v3 = PASSWORD_REGEX.test(password);
     if (!v1 || !v2 || !v3) {
-        setErrMsg("Champs mal renseigné");
-        return;
+      setErrMsg("Champs mal renseigné");
+      return;
     }
     try {
-        const response = await axios.post(REGISTER_URL,
-            JSON.stringify({ username, email, password }),
-            {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
-            }
-        );
-        console.log(response?.data);
-        console.log(response?.accessToken);
-        console.log(JSON.stringify(response))
-        setSuccess(true);
-        //clear state and controlled inputs
-        //need value attrib on inputs for this
-        setUser('');
-        setEmail('')
-        setPassword('');
-    } catch (err) {
-        if (!err?.response) {
-            setErrMsg('Aucune réponse serveur');
-        } else if (err.response?.status === 409) {
-            setErrMsg('Identifiant déjà enregistré');
-        } else {
-            setErrMsg('Inscription échoué')
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ username, email, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: false,
         }
-        errRef.current.focus();
+      );
+      console.log(response?.data);
+      console.log(response?.accessToken);
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+      setUser("");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("Aucune réponse serveur");
+      } else if (err.response?.status === 409) {
+        setErrMsg("Identifiant déjà enregistré");
+      } else {
+        setErrMsg("Inscription échoué");
+      }
+      errRef.current.focus();
     }
-}
+  };
   return (
-    <div
-      style={{
-        backgroundImage: `url(${BackgroundImage})`,
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="Register">
-        <FormStyle onSubmit={handleSubmit}>
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
+        <div
+          style={{
+            backgroundImage: `url(${BackgroundImage})`,
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="Register">
+            <FormStyle onSubmit={handleSubmit}>
+              <p
+                ref={errRef}
+                className={errMsg ? "errmsg" : "offscreen"}
+                aria-live="assertive"
+              >
+                {errMsg}
+              </p>
 
-          <label htmlFor="username">Identifiant</label>
-          <InputStyle type="text" 
-          id="username"
-          ref={userRef}
-          autoComplete="off"
-          onChange={(e)=> setUser(e.target.value)}
-          value={username}
-          required
-          aria-invalid={validName?"false":"true"}
-          aria-describedby="uidnote"
-          onFocus={()=>setUserFocus(true)}
-          onBlur={()=>setUserFocus(false)}
-          />
-          <StyledParagraph id="uidnote" classname={userFocus && username && !validName ? "instructions":"offscreen"}>
-            4 a 24 caracteres.<br/>
-            l'identifiant dois commencé par une lettre<br/>
-            Les lettres , nombres et tirets sont accéptés
-          </StyledParagraph>
-          <label htmlFor="">Email</label>
-          <InputStyle type="email"
-            id="email"
-            ref={userRef}
-            autoComplete="off"
-            onChange={(e)=> setEmail(e.target.value)}
-            value={email}
-            required
-            aria-invalid={validEmail?"false":"true"}
-            aria-describedby="uemailnote"
-            onFocus={()=>setEmailFocus(true)}
-            onBlur={()=>setEmailFocus(false)}
-          />
-          <StyledParagraph id="uemailnote" classname={emailFocus && email && !validEmail? "instructions":"offscreen"}>
-            Entrer une adresse Mail Valide exemple =jeandupont@live.fr
-          </StyledParagraph>
-          <label htmlFor="">Mot de passe</label>
-          <InputStyle type="password" 
-          id="password" 
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-          aria-invalid={validPassword ? "false" : "true"}
-          aria-describedby="pwdnote"
-          onFocus={() => setPasswordFocus(true)}
-          onBlur={() => setPasswordFocus(false)}
-          />
+              <label htmlFor="username">Identifiant</label>
+              <InputStyle
+                type="text"
+                id="username"
+                ref={userRef}
+                autoComplete="off"
+                onChange={(e) => setUser(e.target.value)}
+                value={username}
+                required
+                aria-invalid={validName ? "false" : "true"}
+                aria-describedby="uidnote"
+                onFocus={() => setUserFocus(true)}
+                onBlur={() => setUserFocus(false)}
+              />
+              <StyledParagraph
+                id="uidnote"
+                classname={
+                  userFocus && username && !validName
+                    ? "instructions"
+                    : "offscreen"
+                }
+              >
+                4 a 24 caracteres.
+                <br />
+                l'identifiant dois commencé par une lettre
+                <br />
+                Les lettres , nombres et tirets sont accéptés
+              </StyledParagraph>
+              <label htmlFor="">Email</label>
+              <InputStyle
+                type="email"
+                id="email"
+                ref={userRef}
+                autoComplete="off"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                required
+                aria-invalid={validEmail ? "false" : "true"}
+                aria-describedby="emailnote"
+                onFocus={() => setEmailFocus(true)}
+                onBlur={() => setEmailFocus(false)}
+              />
+              <StyledParagraph
+                id="emailnote"
+                classname={
+                  emailFocus && email && !validEmail? "instructions" : "offscreen"}>
+                Entrer une adresse Mail Valide exemple =jeandupont@live.fr
+              </StyledParagraph>
+              <label htmlFor="">Mot de passe</label>
+              <InputStyle
+                type="password"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
+                aria-invalid={validPassword ? "false" : "true"}
+                aria-describedby="pwdnote"
+                onFocus={() => setPasswordFocus(true)}
+                onBlur={() => setPasswordFocus(false)}
+              />
 
-          <ButtonStyle type='submit'>Inscription</ButtonStyle>
-        </FormStyle>
-      </div>
-    </div>
-  );
-}
+              <ButtonStyle type="submit">Inscription</ButtonStyle>
+            </FormStyle>
+          </div>
+        </div>
+      )}
+
 export default Register;

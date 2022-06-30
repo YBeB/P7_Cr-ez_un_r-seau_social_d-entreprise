@@ -99,6 +99,7 @@ function Register() {
           headers: { "Content-Type": "application/json" },
           withCredentials: false,
         }
+        
       );
       console.log(response?.data);
       console.log(response?.accessToken);
@@ -107,12 +108,14 @@ function Register() {
       setUser("");
       setEmail("");
       setPassword("");
-    } catch (err) {
-      if (!err?.response) {
+    } catch (error) {
+      if (!error?.response) {
         setErrMsg("Aucune réponse serveur");
-      } else if (err.response?.status === 409) {
+      } else if (error.response?.status === 401) {
         setErrMsg("Identifiant déjà enregistré");
-      } else {
+      } 
+      else if (error.request){setErrMsg("Adresse mail déjà enregistré")}
+      else {
         setErrMsg("Inscription échoué");
       }
       errRef.current.focus();

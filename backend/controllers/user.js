@@ -90,7 +90,7 @@ exports.signup = (req, res, next) => {
               })
           );
       } else {
-        return res.status(404).json({ error: "Cet utilisateur existe déjà" });
+        return res.status(401).json({ error: "Cet utilisateur existe déjà" });
       }
     })
     .catch((error) =>

@@ -51,7 +51,7 @@ exports.signup = (req, res, next) => {
   }
 
   db.User.findOne({
-    attributes: ["username" || "email"],
+    attributes: ["username" && "email"],
     where: {
       username: username,
       email: email,

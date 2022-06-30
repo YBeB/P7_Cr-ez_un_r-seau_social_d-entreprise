@@ -9,10 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       password: {
         type: Sequelize.STRING
@@ -34,9 +36,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+
+
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
+    
   }
 };

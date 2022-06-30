@@ -114,7 +114,6 @@ function Register() {
       } else if (error.response?.status === 401) {
         setErrMsg("Identifiant déjà enregistré");
       } 
-      else if (error.request){setErrMsg("Adresse mail déjà enregistré")}
       else {
         setErrMsg("Inscription échoué");
       }

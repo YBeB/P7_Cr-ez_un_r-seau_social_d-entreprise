@@ -51,7 +51,7 @@ exports.signup = (req, res, next) => {
   }
 
   db.User.findOne({
-    attributes: ["username" && "email"],
+    attributes: ["username" || "email"],
     where: {
       username: username,
       email: email,
@@ -117,7 +117,7 @@ exports.login = (req, res, next) => {
               imageProfile: user.imageProfile,
               token: jwt.sign(
                 { userId: user.id,isAdmin: user.isAdmin},
-                process.env.RND_TKN,
+                `${process.env.RND_TKN}`,
                 { expiresIn: "24h" }
               ),
             });

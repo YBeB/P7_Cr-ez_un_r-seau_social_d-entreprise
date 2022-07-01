@@ -169,7 +169,6 @@ function Register() {
               <InputStyle
                 type="email"
                 id="email"
-                ref={userRef}
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -198,7 +197,7 @@ function Register() {
                 onBlur={() => setPasswordFocus(false)}
               />
 
-              <ButtonStyle type="submit">Inscription</ButtonStyle>
+              <ButtonStyle >Inscription</ButtonStyle>
             </FormStyle>
           </div>
         </div>

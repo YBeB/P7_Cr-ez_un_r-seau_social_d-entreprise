@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import ReactDOM from "react-dom/client";
+import Homepage from "./pages/Homepage/index";
 import Header from "./components/Header/index";
 import Register from "./pages/Register/index";
 import Login from "./pages/Login/index";
@@ -23,6 +24,7 @@ body{margin:0;}
 
 `;
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -36,6 +38,7 @@ root.render(
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Homepage/>}/>
           <Route path="/*" element={<Error />} />
         </Routes>
         <Footer />

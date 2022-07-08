@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BackgroundImage from "../../assets/family-using-computer.jpg";
+import { Navigate } from "react-router-dom";
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
 import axios from "../../utils/Axios/axios";
@@ -60,11 +61,12 @@ function Login() {
         }
       );
       console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
+      const accessToken = response?.data?.token;
       setAuth({ email, password, accessToken });
       setEmail("");
       setPassword("");
       setSuccess(true)
+        localStorage["user"]=JSON.stringify(response.data)
     } catch (err) {
       if (!err?.response) {
         setErrMsg("Le Serveur ne reponds pas");
@@ -83,7 +85,7 @@ function Login() {
 <>
     {success ? (
         <section>
-            <h1>You are logged in!</h1>
+            <Navigate to="/home"/>
 
         </section>
     ) : (

@@ -66,7 +66,6 @@ function Login() {
       setEmail("");
       setPassword("");
       setSuccess(true)
-        localStorage["user"]=JSON.stringify(response.data)
     } catch (err) {
       if (!err?.response) {
         setErrMsg("Le Serveur ne reponds pas");

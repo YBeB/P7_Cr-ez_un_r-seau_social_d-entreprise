@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 
+
 const Globalstyle = createGlobalStyle`
 div{
   font-family:Lato,sans-serif;

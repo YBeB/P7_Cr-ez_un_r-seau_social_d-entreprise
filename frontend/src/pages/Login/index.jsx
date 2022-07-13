@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BackgroundImage from "../../assets/family-using-computer.jpg";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
 import axios from "../../utils/Axios/axios";
@@ -35,7 +35,7 @@ function Login() {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
-
+  const Navigate =useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -65,7 +65,8 @@ function Login() {
       setAuth({ email, password, accessToken });
       setEmail("");
       setPassword("");
-      setSuccess(true)
+      localStorage.setItem('user',JSON.stringify(response.data))
+      Navigate("/home")
     } catch (err) {
       if (!err?.response) {
         setErrMsg("Le Serveur ne reponds pas");
@@ -81,13 +82,7 @@ function Login() {
   };
 
   return (
-<>
-    {success ? (
-        <section>
-            <Navigate to="/home"/>
 
-        </section>
-    ) : (
     <div
       style={{
         backgroundImage: `url(${BackgroundImage})`,
@@ -129,6 +124,5 @@ function Login() {
     </div>
   )
 }
-</>
-)}
+
 export default Login;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import ReactDOM from "react-dom/client";
 import Homepage from "./pages/Homepage/index";
 import Header from "./components/Header/index";
@@ -15,8 +14,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
-
-
+import ProtectedRoutes from "./components/PrivateRoutee/PrivateRoutes";
 const Globalstyle = createGlobalStyle`
 div{
   font-family:Lato,sans-serif;
@@ -25,9 +23,7 @@ body{margin:0;}
 
 `;
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
 root.render(
   <React.StrictMode>
 
@@ -36,11 +32,15 @@ root.render(
       <AuthProvider>
         <Header />
         <Routes>
+
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedRoutes/>}>
           <Route path="/home" element={<Homepage/>}/>
+          </Route>
           <Route path="/*" element={<Error />} />
+
         </Routes>
         <Footer />
         </AuthProvider>

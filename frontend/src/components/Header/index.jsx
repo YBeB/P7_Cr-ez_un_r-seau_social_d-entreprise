@@ -3,6 +3,7 @@ import styled from "styled-components";
 import colors from "../../utils/style/colors";
 import icongroupo from "../../assets/icon-left-font.png";
 import StyledLink from '../../utils/style/Link-style';
+
 const SyleImg = styled.img`
   height: 60px;
   @media screen and (max-width:420px){

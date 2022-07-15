@@ -143,7 +143,7 @@ exports.login = (req, res, next) => {
 exports.UserProfile = (req, res, next) => {
   const id = req.params.id;
   db.User.findOne({
-    attributes: ["id", "username", "email", "isAdmin", "imageProfile"],
+    attributes: ["usrId", "username", "email", "isAdmin", "imageProfile"],
     where: { id: id },
   })
     .then((user) => {

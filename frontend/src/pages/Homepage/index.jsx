@@ -1,10 +1,9 @@
 import React from "react";
 import styled from 'styled-components';
 import colors from "../../utils/style/colors";
-import axios from "../../utils/Axios/axios";
 
-const POSTE_URL="api/post"
-const userSaved=JSON.parse(localStorage.getItem('user'));
+const userSaved=localStorage.getItem('token')
+
 const StyledButton=styled.button`
 background:${colors.tertiary};
 font-size: 30px;
@@ -12,11 +11,30 @@ color :white;
 display:flex;
 justify-content:end;
 `
+const StyledDiv=styled.div`
+border:50px;
+border-color:black;
+width:150px;
+heigh:150px;
+`
 
-let user={
-'username':userSaved.username,
-'image':userSaved.imageProfil,
-}
+
+const jwtToken  = JSON.parse(userSaved)
+console.log(jwtToken)
+fetch('http://127.0.1:3000/api/user/myprofil', {
+    method: 'GET',
+    headers: {
+       Authorization: `${jwtToken}`
+       
+    },
+    
+  }).then(function (response) {
+
+    return response.json();
+})
+.then(function(data){
+console.log(data)
+})
 
 function Homepage(){
     
@@ -24,12 +42,10 @@ function Homepage(){
 
     return(
 <div>
-<div>
-<p>{user.username}</p>
-<img src={user.image} alt="Profil"/>
-</div>
-<StyledButton>Deconnexion</StyledButton>
+<StyledDiv>
 
+
+</StyledDiv>
 
 </div>
 )

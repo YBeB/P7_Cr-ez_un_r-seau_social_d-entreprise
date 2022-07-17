@@ -141,9 +141,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.UserProfile = (req, res, next) => {
-  const id = req.params.id;
+  const id = req.auth.id;
   db.User.findOne({
-    attributes: ["usrId", "username", "email", "isAdmin", "imageProfile"],
+    attributes: ["id", "username", "email", "isAdmin", "imageProfile"],
     where: { id: id },
   })
     .then((user) => {
@@ -153,8 +153,8 @@ exports.UserProfile = (req, res, next) => {
         res.status(404).json({ error: "Utilisateur non trouvé" });
       }
     })
-    .catch((error) =>
-      res.status(404).json({ error: "Une erreur s'est produite !" })
+    .catch((error) =>{console.log(error);
+      res.status(404).json({ error: "Une erreur s'est produite !" })}
     );
 };
 

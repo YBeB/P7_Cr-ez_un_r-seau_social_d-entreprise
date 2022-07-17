@@ -24,7 +24,7 @@ console.log(jwtToken)
 fetch('http://127.0.1:3000/api/user/myprofil', {
     method: 'GET',
     headers: {
-       Authorization: `${jwtToken}`
+       Authorization: `Bearer ${jwtToken}`
        
     },
     

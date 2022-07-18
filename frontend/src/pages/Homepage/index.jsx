@@ -34,6 +34,7 @@ fetch('http://127.0.1:3000/api/user/myprofil', {
 })
 .then(function(data){
 console.log(data)
+const username=data.username;
 })
 
 function Homepage(){

@@ -7,9 +7,8 @@ const userSaved = localStorage.getItem("token");
 const jwtToken = JSON.parse(userSaved);
 function ShowProfil(){
     const [profil, setProfil] = useState([]);
-    const [count, setCount] = useState(-1);
-    useEffect(() => setCount(count + 1), [profil]);
-    
+
+    useEffect(()=>{
     axios
     .get(SHOWPROFIL, {
       headers: { Authorization: `Bearer ${jwtToken}` },
@@ -19,8 +18,8 @@ function ShowProfil(){
     })
     .catch((error) => {
       console.error(error);
-    },[]);
-
+    });
+  },[])
 return(
     <div>
     <img src={profil.imageProfil} alt="profil"/>

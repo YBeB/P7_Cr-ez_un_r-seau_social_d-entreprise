@@ -160,7 +160,7 @@ exports.UserProfile = (req, res, next) => {
 
 exports.modifyUserProfile = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, process.env.RND_TKN);
+  const decodedToken = jwt.verify(token, `${process.env.RND_TKN}`);
   const userId = decodedToken.userId;
 
   req.body.user = userId;
@@ -174,7 +174,7 @@ exports.modifyUserProfile = (req, res, next) => {
         }`,
       }
     : { ...req.body };
-
+console.log(userObject.imageProfile)
   db.User.findOne({
     where: { id: userId },
   })

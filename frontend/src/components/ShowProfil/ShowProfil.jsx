@@ -1,13 +1,18 @@
 import React from "react";
 import { useEffect,useState } from "react";
 import axios from "../../utils/Axios/axios";
-import { ReactDOM } from "react";
+import styled from "styled-components";
+
 const SHOWPROFIL="/api/user/myprofil";
 const userSaved = localStorage.getItem("token");
 const jwtToken = JSON.parse(userSaved);
+
+const SizedImage=styled.img`width:140px`
+
+const UsernameParagraph=styled.p`display:flex;
+`
 function ShowProfil(){
     const [profil, setProfil] = useState([]);
-  console.log(SHOWPROFIL)
     useEffect(()=>{
     axios
     .get(SHOWPROFIL, {
@@ -15,7 +20,6 @@ function ShowProfil(){
     })
     .then((res) => {
        setProfil(res.data)
-       console.log(res.data)
       const image=document.getElementById('image');
       image.src=res.data.imageProfile;
 
@@ -26,11 +30,10 @@ function ShowProfil(){
       console.error(error);
     });
   },[])
-  console.log('FinPhotoProfil')
 return(
     <div>
-    <img src={profil.imageProfil} id="image" alt="profil"/>
-    <p>{profil.username}</p>
+    <SizedImage src={profil.imageProfil} id="image" alt="profil"/>
+    <UsernameParagraph>{profil.username}</UsernameParagraph>
     </div>
 )
 

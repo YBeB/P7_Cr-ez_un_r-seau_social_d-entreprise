@@ -6,6 +6,8 @@ import StyledLink from '../../utils/style/Link-style';
 
 const FooterStyle=styled.footer`
 background-color:${colors.tertiary};
+display:flex;
+align-items:end;
 `
 
 const LongFooter=styled.div`

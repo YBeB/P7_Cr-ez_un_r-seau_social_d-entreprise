@@ -3,11 +3,11 @@ const db = require("../models/Index");
 const fs = require("fs");
 
 exports.createPost = (req, res, next) => {
+  const title=req.body.title
   const content = req.body.content;
-
   const userId = req.auth.id;
 
-  if (content == null || content == "") {
+  if (content == null || content == "" && title==null || title=="") {
     return res
       .status(400)
       .json({ error: "Tous les champs doivent être renseignés" });
@@ -20,7 +20,13 @@ exports.createPost = (req, res, next) => {
         error: "Le contenu du message doit contenir au moins 4 caractères",
       });
   }
-
+if(title.length <=4){
+  return res
+    .status(400)
+    .json({
+      error: "Le titre du message doit contenir au moins 4 caractères",
+    });
+}
   db.User.findOne({
     where: { id: userId },
   })
@@ -28,6 +34,7 @@ exports.createPost = (req, res, next) => {
     .then((userFound) => {
       if (userFound) {
         const post = db.Post.build({
+          title:req.body.title,
           content: req.body.content,
           imagePost: req.file
             ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
@@ -78,10 +85,12 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.modifyPost = (req, res, next) => {
   console.log("file", req.file);
+  console.log("title",req.title)
   console.log("content", req.body.content);
   console.log("bodypost", req.body.post);
   const postObject = req.file
     ? {
+        title:req.body.title,
         content: req.body.content,
         imagePost: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
@@ -125,6 +134,7 @@ exports.deletePost = (req, res, next) => {
     where: { id: req.params.postId },
   })
     .then((post) => {
+      /*Probleme ici*/
       if (post && (req.auth.admin || req.auth.id == postFound.userId)) {
         if (post.imagePost != null) {
           const filename = post.imagePost.split("/images/")[1];

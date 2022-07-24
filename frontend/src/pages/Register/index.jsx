@@ -108,6 +108,7 @@ function Register() {
       setUser("");
       setEmail("");
       setPassword("");
+    
     } catch (error) {
       if (!error?.response) {
         setErrMsg("Aucune réponse serveur");
@@ -115,7 +116,7 @@ function Register() {
         setErrMsg("Identifiant déjà enregistré");
       } 
       else {
-        setErrMsg("Inscription échoué");
+        setErrMsg("Adresse Mail déjà enregistré");
       }
       errRef.current.focus();
     }

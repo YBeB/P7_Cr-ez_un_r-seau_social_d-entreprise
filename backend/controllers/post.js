@@ -44,7 +44,7 @@ if(title.length <=4){
         post
           .save()
           .then(() =>
-            res.status(201).json({ message: "Votre message a bien été créé !" })
+            res.status(201).json({ message: "Votre Post a bien été créé !" })
           )
           .catch((error) =>
             res.status(400).json({ error: "Une erreur s'est produite !" })
@@ -75,7 +75,7 @@ exports.getAllPosts = (req, res, next) => {
       if (postFound) {
         res.status(200).json(postFound);
       } else {
-        res.status(404).json({ error: "Aucun message trouvé" });
+        res.status(404).json({ error: "Aucun Post trouvé" });
       }
     })
     .catch((error) => {
@@ -112,7 +112,7 @@ exports.modifyPost = (req, res, next) => {
           .then((post) =>
             res
               .status(200)
-              .json({ message: "Votre message a bien été modifié !" })
+              .json({ message: "Le Post a bien été modifié !" })
           )
           .catch((error) =>
             res
@@ -120,7 +120,7 @@ exports.modifyPost = (req, res, next) => {
               .json({ error: "Ue erreur s'est produite !" })
           );
       } else {
-        res.status(404).json({ error: "Message non trouvé" });
+        res.status(404).json({ error: "Post non trouvé" });
       }
     })
     .catch((error) =>
@@ -146,7 +146,7 @@ exports.deletePost = (req, res, next) => {
               .then(() =>
                 res
                   .status(200)
-                  .json({ message: "Votre message a été supprimé" })
+                  .json({ message: "Votre Post a été supprimé" })
               )
               .catch(() =>
                 res
@@ -159,14 +159,14 @@ exports.deletePost = (req, res, next) => {
             where: { id: req.params.postId },
           })
             .then(() =>
-              res.status(200).json({ message: "Votre message a été supprimé" })
+              res.status(200).json({ message: "Votre Post a été supprimé" })
             )
             .catch(() =>
               res.status(500).json({ error: "Une erreur s'est produite !" })
             );
         }
       } else {
-        return res.status(404).json({ error: "Message non trouvé" });
+        return res.status(404).json({ error: "Post non trouvé" });
       }
     })
     .catch((error) =>

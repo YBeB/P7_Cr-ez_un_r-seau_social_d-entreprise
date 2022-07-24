@@ -1,5 +1,6 @@
 import axios from "../../utils/Axios/axios";
 import React from "react";
+import { Navigate } from "react-router-dom";
 import { useState } from "react";
 const CreatePost = () => {
     // a local state to store the currently selected file.
@@ -23,9 +24,11 @@ const CreatePost = () => {
           Authorization: `Bearer ${jwtToken}`,
          },
         });
+
       } catch(error) {
         console.log(error)
       }
+
 
     }
   
@@ -39,7 +42,7 @@ const CreatePost = () => {
         <input type="text" name="title"  id="title" onChange={(e) => setTitle(e.target.value)} />
         <input type="text" name="content"  id="content" onChange={(e) => setContent(e.target.value)}/>
         
-        <input type="submit" value="Envoi post" />
+        <input type="submit" value="Envoi post"   />
       </form>
     )
   };

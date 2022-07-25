@@ -44,6 +44,8 @@ const WidthDiv = styled.div`
 
 function ShowPost() {
   const [Posts, SetPost] = useState([]);
+  const [NewComments, setNewComments] = useState([]);
+  const [comments, setComments] = useState([]);
   const fetchPoste = async () => {
     axios
       .get(SHOWPOST, {
@@ -72,8 +74,13 @@ function ShowPost() {
       });
   };
 
-  
+  const LikingPost=(id)=>{
+    axios.post(`api/post/${id}/like`,{
+      headers: { Authorization: `Bearer ${jwtToken}` },
+    })
 
+
+  }
 
   return (
     <div>
@@ -85,7 +92,9 @@ function ShowPost() {
               <p>{Post.content}</p>
               <PostImage src={Post.imagePost} alt="" />
               <button onClick={() => deletePost(Post.id)}>Supprimé</button>
+
             </WidthDiv>
+
           </AnotherDivPost>
           <StyledProfill>
             <ImageProfilPost src={Post.User.imageProfile} alt="" />

@@ -17,10 +17,11 @@ import {
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoutes from "./components/PrivateRoutee/PrivateRoutes";
 const Globalstyle = createGlobalStyle`
+body{margin:0;}
 div{
   font-family:Lato,sans-serif;
 }
-body{margin:0;}
+
 
 `;
 

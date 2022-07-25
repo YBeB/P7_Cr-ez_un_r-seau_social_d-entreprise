@@ -7,17 +7,12 @@ import ShowPost from "../../components/ShowPost/ShowPost";
 import CreatePost from "../../components/CreatePost/CreatePost";
 import Deconnexion from "../../components/Disconnect/Disconnect";
 import ProfilButton from "../../components/ProfilS/ProfilS";
-const userSaved = localStorage.getItem("token");
+import DeleteAccountButton from "../../components/DeleteAccount/DelteAccount";
 
-const MYPROFILE = "api/user/myprofil";
-const StyledButton = styled.button`
-  background: ${colors.tertiary};
-  font-size: 30px;
-  color: white;
-`;
+
 const AllBody = styled.body`
 height: 100%; 
-margin:0;#f9f9fb
+margin:0;
 `;
 const StyledDiv = styled.div`
   height: 100%;
@@ -39,7 +34,7 @@ const ShowPostDiv = styled.div`
   flex-direction: column;
   justify-content: start;
 `;
-const jwtToken = JSON.parse(userSaved);
+
 
 
 function Homepage() {
@@ -52,6 +47,7 @@ function Homepage() {
           </CreatePostDiv>
 
           <StyledDiv>
+            <DeleteAccountButton/>
             <ProfilButton/>
             <Deconnexion/>
             <ShowProfil />

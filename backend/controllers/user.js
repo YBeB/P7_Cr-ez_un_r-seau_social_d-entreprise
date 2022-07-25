@@ -203,15 +203,19 @@ console.log(userObject.imageProfile)
 };
 
 exports.deleteAccount = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, `${process.env.RND_TKN}`);
+  const userId = decodedToken.userId;
+
+  req.body.user = userId;
   const id = req.params.id;
   db.User.findOne({
-    attributes: ["id"],
-    where: { id: id },
+    where: { id: userId },
   })
     .then((user) => {
       if (user) {
         db.User.destroy({
-          where: { id: id },
+          where: { id: userId },
         })
           .then(() =>
             res.status(200).json({ message: "Votre compte a été supprimé" })
@@ -225,7 +229,8 @@ exports.deleteAccount = (req, res, next) => {
         return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
     })
-    .catch((error) =>
+    .catch((error) =>{console.log(error)
       res.status(500).json({ error: "Une erreur s'est produite !" })
-    );
+      
+    });
 };

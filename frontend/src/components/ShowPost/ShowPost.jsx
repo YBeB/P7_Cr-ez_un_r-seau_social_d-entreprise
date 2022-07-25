@@ -43,8 +43,6 @@ const WidthDiv = styled.div`
 
 function ShowPost() {
   const [Posts, SetPost] = useState([]);
-  const [NewComments, setNewComments] = useState([]);
-  const [comments, setComments] = useState([]);
   const fetchPoste = async () => {
     axios
       .get(SHOWPOST, {
@@ -76,7 +74,7 @@ function ShowPost() {
   };
 
   const LikingPost = (id) => {
-    axios.post(`api/post/${id}/like/1`,{
+    axios.post(`api/post/${id}/like`,{
       headers: { Authorization: `Bearer ${jwtToken}` },
     })
 

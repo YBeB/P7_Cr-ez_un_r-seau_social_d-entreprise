@@ -4,9 +4,8 @@ const db = require('../models/Index');
 
 exports.likePost = (req, res, next) => {
     const userId = req.auth.id;
-    const isliked = req.body.like
-    
-
+    const postId = req.params.postId;
+    const isliked = req.params.like;
     db.Post.findOne({
       
         where: { id: req.params.postId },

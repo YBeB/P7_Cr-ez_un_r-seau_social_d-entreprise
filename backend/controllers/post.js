@@ -104,8 +104,8 @@ exports.modifyPost = (req, res, next) => {
   db.Post.findOne({
     where: { id: req.params.postId },
   })
-    .then((postFound) => {
-      if (postFound && (req.auth.admin || req.auth.id == postFound.userId)) {
+    .then((post) => {
+      if (post && (req.auth.admin || req.auth.id == post.userId)) {
         db.Post.update(postObject, {
           where: { id: req.params.postId },
         })
@@ -130,12 +130,11 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
   db.Post.findOne({
-    attributes: ["id"],
     where: { id: req.params.postId },
   })
     .then((post) => {
       /*Probleme ici*/
-      if (post && (req.auth.admin || req.auth.id == postFound.userId)) {
+      if (post && (req.auth.admin || req.auth.id == post.userId)) {
         if (post.imagePost != null) {
           const filename = post.imagePost.split("/images/")[1];
 
@@ -169,7 +168,7 @@ exports.deletePost = (req, res, next) => {
         return res.status(404).json({ error: "Post non trouvé" });
       }
     })
-    .catch((error) =>
-      res.status(500).json({ error: "Une erreur s'est produite !" })
+    .catch((error) =>{
+      res.status(500).json({ error: "Une erreur s'est produite !" })}
     );
 };

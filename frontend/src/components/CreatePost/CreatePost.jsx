@@ -1,6 +1,6 @@
 import axios from "../../utils/Axios/axios";
 import React from "react";
-import { Navigate } from "react-router-dom";
+
 import { useState } from "react";
 const CreatePost = () => {
     // a local state to store the currently selected file.

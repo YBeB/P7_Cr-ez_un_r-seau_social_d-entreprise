@@ -41,7 +41,6 @@ const WidthDiv = styled.div`
   width: 70%;
 `;
 
-
 function ShowPost() {
   const [Posts, SetPost] = useState([]);
   const [NewComments, setNewComments] = useState([]);
@@ -74,13 +73,49 @@ function ShowPost() {
       });
   };
 
-  const LikingPost=(id)=>{
-    axios.post(`api/post/${id}/like`,{
+  const LikingPost = (id) => {
+    axios.post(`api/post/${id}/like/1`,{
       headers: { Authorization: `Bearer ${jwtToken}` },
     })
 
+}
+
+
+
+  // a local state to store the currently selected file.
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [content,setContent]=useState("");
+  const [title,setTitle]=useState("")
+  const userSaved = localStorage.getItem("token");
+  const jwtToken = JSON.parse(userSaved);
+  const handleSubmit = (id) => (event) => {
+    event.preventDefault()
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("content",content);
+    formData.append("title",title);
+    try {
+      const response = axios({
+        method: "put",
+        url: `/api/post/${id}`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${jwtToken}`,
+       },
+      });
+
+    } catch(error) {
+      console.log(error)
+    }
+
 
   }
+
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
+
+
 
   return (
     <div>
@@ -91,10 +126,15 @@ function ShowPost() {
               <StyledHun>{Post.title}</StyledHun>
               <p>{Post.content}</p>
               <PostImage src={Post.imagePost} alt="" />
+              <form id="ModPost" onSubmit={handleSubmit(Post.id)} >
+              <input type="text" name="title"  id="title" onChange={(e) => setTitle(e.target.value)}/>
+              <input type="file" name="image" onChange={handleFileSelect}/>
+                <input type="text" name="content"  id="content" onChange={(e) => setContent(e.target.value)}/>
+                <input type="submit" value="ModifyPost"   />
+              </form>
               <button onClick={() => deletePost(Post.id)}>Supprimé</button>
-
+              <button onClick={()=>LikingPost(Post.id) }>Like</button>
             </WidthDiv>
-
           </AnotherDivPost>
           <StyledProfill>
             <ImageProfilPost src={Post.User.imageProfile} alt="" />

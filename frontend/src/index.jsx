@@ -34,12 +34,10 @@ root.render(
       <AuthProvider>
         <Header />
         <Routes>
-
-          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoutes/>}>
-          <Route path="/home" element={<Homepage/>}/>
+          <Route path="/" element={<Homepage/>}/>
           <Route path="/myprofil" element={<Myprofil/>}/>
           </Route>
           <Route path="/*" element={<Error />} />

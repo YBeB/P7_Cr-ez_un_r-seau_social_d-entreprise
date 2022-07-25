@@ -66,7 +66,7 @@ function Login() {
       setPassword("");
       localStorage.setItem('token',JSON.stringify(response.data.token))
       localStorage.setItem('userId',JSON.stringify(response.data.userId))
-      Navigate("/home")
+      Navigate("/")
     } catch (err) {
       if (!err?.response) {
         setErrMsg("Le Serveur ne reponds pas");

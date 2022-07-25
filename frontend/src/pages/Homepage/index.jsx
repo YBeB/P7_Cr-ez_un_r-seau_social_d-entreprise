@@ -5,75 +5,64 @@ import axios from "../../utils/Axios/axios";
 import ShowProfil from "../../components/ShowProfil/ShowProfil";
 import ShowPost from "../../components/ShowPost/ShowPost";
 import CreatePost from "../../components/CreatePost/CreatePost";
+import Deconnexion from "../../components/Disconnect/Disconnect";
+import ProfilButton from "../../components/ProfilS/ProfilS";
 const userSaved = localStorage.getItem("token");
-
-
-
-
 
 const MYPROFILE = "api/user/myprofil";
 const StyledButton = styled.button`
   background: ${colors.tertiary};
   font-size: 30px;
   color: white;
-
 `;
-const AllBody=styled.body`
+const AllBody = styled.body`
 height: 100%; 
 margin:0;#f9f9fb
-`
+`;
 const StyledDiv = styled.div`
-height:100%;
-display:flex;
-flex-direction:column;
-align-items: flex-end;
-border:solid;
- `
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border: solid;
+`;
 
- 
-const GlobalDiv=styled.div`display:flex;
-justify-content:space-between;
+const GlobalDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const CreatePostDiv = styled.div``;
 
-
-
-`
-const CreatePostDiv=styled.div``
-
-
-const ShowPostDiv =styled.div`
-padding-bottom:70px;
-display:flex;
-flex-direction: column;
-justify-content:start;
-`
+const ShowPostDiv = styled.div`
+  padding-bottom: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+`;
 const jwtToken = JSON.parse(userSaved);
 
+
 function Homepage() {
-
-
-
-
   return (
     <AllBody>
-    <div>
-      <GlobalDiv>
+      <div>
+        <GlobalDiv>
+          <CreatePostDiv>
+            <CreatePost />
+          </CreatePostDiv>
 
-<CreatePostDiv>
-<CreatePost/>
-</CreatePostDiv>
-
-
-
-      <StyledDiv>
-      <ShowProfil/>
-      </StyledDiv>
-      </GlobalDiv>
+          <StyledDiv>
+            <ProfilButton/>
+            <Deconnexion/>
+            <ShowProfil />
+          </StyledDiv>
+        </GlobalDiv>
 
         <ShowPostDiv>
-        <ShowPost/>
+          <ShowPost />
         </ShowPostDiv>
-        </div>
-        </AllBody>
+      </div>
+    </AllBody>
   );
 }
 

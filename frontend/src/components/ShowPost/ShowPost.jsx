@@ -70,7 +70,9 @@ function ShowPost() {
       })
       .then(() => {
         alert("Post Supprimé");
+        document.location.reload(true)
       });
+
   };
 
   const LikingPost = (id) => {
@@ -101,10 +103,13 @@ function ShowPost() {
         data: formData,
         headers: { "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${jwtToken}`,
-       },
-      });
-
-    } catch(error) {
+      },
+    }) 
+    setTimeout(function(){
+      window.location.reload();
+     },1000);
+    
+  } catch(error) {
       console.log(error)
     }
 

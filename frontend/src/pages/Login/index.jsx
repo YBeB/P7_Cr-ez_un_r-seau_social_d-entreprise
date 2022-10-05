@@ -31,6 +31,8 @@ const ButtonStyle = styled.button`
   font-size: 24px;
 `;
 
+
+
 function Login() {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
@@ -83,19 +85,14 @@ function Login() {
 
   return (
 
-    <div
+    <body
       style={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
+
       }}
     >
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
-        {errMsg}
-      </p>
+
       <div className="Login">
         <FormStyle onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
@@ -121,7 +118,7 @@ function Login() {
           <ButtonStyle>Connexion</ButtonStyle>
         </FormStyle>
       </div>
-    </div>
+    </body>
   )
 }
 

@@ -66,9 +66,6 @@ exports.getAllPosts = (req, res, next) => {
         model: db.User,
         attributes: ["username", "imageProfile"],
       },
-      {
-        model: db.Comment,
-      },
     ],
   })
     .then((postFound) => {

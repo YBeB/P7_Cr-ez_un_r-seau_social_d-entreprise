@@ -8,10 +8,10 @@ const MYPROFILE = "api/user/myprofil";
 function Myprofil(){
 axios
 .get(MYPROFILE, {
-  headers: { Authorization: `Bearer ${jwtToken}` },
+  headers: { Authorization: jwtToken },
 })
 .then((res) => {
-window.username=res.data.username
+
 })
 .catch((error) => {
   console.error(error);

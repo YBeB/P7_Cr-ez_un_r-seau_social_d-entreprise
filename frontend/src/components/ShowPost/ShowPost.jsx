@@ -73,12 +73,7 @@ function ShowPost() {
 
   };
 
-  const LikingPost = (id) => {
-    axios.post(`api/post/${id}/like`,{
-      headers: { Authorization: `Bearer ${jwtToken}` },
-    })
 
-}
 
 
 
@@ -118,6 +113,23 @@ function ShowPost() {
     setSelectedFile(event.target.files[0])
   }
 
+  function LikePost(id){        
+            axios.post(`http://localhost:3000/api/post/${id}/like`, {
+                like: window.like,
+            },{
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            })
+            .then(() => {
+                console.log("Vous aimez ce message !");
+                window.location.reload()
+            })
+            .catch(error => {
+              console.log(error)
+           
+})}
 
 
   return (
@@ -136,7 +148,7 @@ function ShowPost() {
                 <input type="submit" value="ModifyPost"   />
               </form>
               <button onClick={() => deletePost(Post.id)}>Supprimé</button>
-              <button onClick={()=>LikingPost(Post.id) }>Like</button>
+              <button onClick={()=>LikePost(Post.id) }>Like</button>
             </WidthDiv>
           </AnotherDivPost>
           <StyledProfill>
